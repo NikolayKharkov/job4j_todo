@@ -1,7 +1,53 @@
-<!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
-
-<web-app>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
+         http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         version="2.4">
   <display-name>Archetype Created Web Application</display-name>
+
+  <servlet>
+    <servlet-name>GetItems</servlet-name>
+    <servlet-class>servlets.GetItems</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetItems</servlet-name>
+    <url-pattern>/getItems</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>PerformItemServlet</servlet-name>
+    <servlet-class>servlets.PerformItemServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PerformItemServlet</servlet-name>
+    <url-pattern>/performItemServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>GetAllPerformItems</servlet-name>
+    <servlet-class>servlets.GetAllPerformItems</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetAllPerformItems</servlet-name>
+    <url-pattern>/getAllPerformItems</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>GetAllNotPerformItems</servlet-name>
+    <servlet-class>servlets.GetAllNotPerformItems</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetAllNotPerformItems</servlet-name>
+    <url-pattern>/getAllNotPerformItems</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>AddItemServlet</servlet-name>
+    <servlet-class>servlets.AddItemServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddItemServlet</servlet-name>
+    <url-pattern>/addItemServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

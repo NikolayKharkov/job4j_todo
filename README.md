@@ -7,3 +7,7 @@
 
 -Создание/выполнения дела
 
+![alt text](screenShots/allItems.jpg)
+![alt text](screenShots/mainMenu.jpg)
+![alt text](screenShots/notPerform.jpg)
+![alt text](screenShots/perform.jpg)
