@@ -3,19 +3,20 @@ package store;
 import models.Item;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import javax.persistence.Query;
 import java.util.List;
+import java.util.function.Function;
 
 public class DbStore implements AutoCloseable {
     private final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
             .configure().build();
     private final SessionFactory sf = new MetadataSources(registry)
             .buildMetadata().buildSessionFactory();
-    private static final DbStore INSTANCE = new DbStore();
 
     private static final class Lazy {
         private static final DbStore INST = new DbStore();
@@ -26,52 +27,52 @@ public class DbStore implements AutoCloseable {
     }
 
     public Item add(Item item) {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        session.save(item);
-        session.getTransaction().commit();
-        session.close();
+        int id = (int) this.tx(session -> session.save(item));
+        item.setId(id);
         return item;
     }
 
     public boolean performItem(int id) {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        Query query = session.createQuery(
-                "update Item set done = true where id = :id"
+        return this.tx(
+                session -> {
+                    Query query = session.createQuery("update Item set done = true where id = :id");
+                    query.setParameter("id", id);
+                    return query.executeUpdate() > 0;
+                }
         );
-        query.setParameter("id", id);
-        query.executeUpdate();
-        session.getTransaction().commit();
-        session.close();
-        return true;
     }
 
     public List<Item> findAll() {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        List result = session.createQuery("from Item order by done desc, created").list();
-        session.getTransaction().commit();
-        session.close();
-        return result;
+        return this.tx(
+                session -> session.createQuery("from Item order by done desc, created").list()
+        );
     }
 
     public List<Item> findAllPerformed() {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        List result = session.createQuery("from Item where done = true order by done desc, created").list();
-        session.getTransaction().commit();
-        session.close();
-        return result;
+        return this.tx(
+                session -> session.createQuery("from Item where done = true order by done desc, created").list()
+        );
     }
 
     public List<Item> findAllNotPerformed() {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        List result = session.createQuery("from Item where done = false order by done desc, created").list();
-        session.getTransaction().commit();
-        session.close();
-        return result;
+        return this.tx(
+                session -> session.createQuery("from Item where done = false order by done desc, created").list()
+        );
+    }
+
+    private <T> T tx(final Function<Session, T> command) {
+        final Session session = sf.openSession();
+        final Transaction tx = session.beginTransaction();
+        try {
+            T rsl = command.apply(session);
+            tx.commit();
+            return rsl;
+        } catch (final Exception e) {
+            session.getTransaction().rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
     @Override
