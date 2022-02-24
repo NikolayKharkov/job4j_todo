@@ -76,6 +76,6 @@ public class DbStore implements AutoCloseable {
 
     @Override
     public void close() throws Exception {
-
+        StandardServiceRegistryBuilder.destroy(registry);
     }
 }
