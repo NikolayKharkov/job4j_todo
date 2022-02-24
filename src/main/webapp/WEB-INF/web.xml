@@ -12,7 +12,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>GetItems</servlet-name>
-    <url-pattern>/getItems</url-pattern>
+    <url-pattern>/getItems.do</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -21,7 +21,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PerformItemServlet</servlet-name>
-    <url-pattern>/performItemServlet</url-pattern>
+    <url-pattern>/performItemServlet.do</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -30,7 +30,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>GetAllPerformItems</servlet-name>
-    <url-pattern>/getAllPerformItems</url-pattern>
+    <url-pattern>/getAllPerformItems.do</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -39,7 +39,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>GetAllNotPerformItems</servlet-name>
-    <url-pattern>/getAllNotPerformItems</url-pattern>
+    <url-pattern>/getAllNotPerformItems.do</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -48,6 +48,43 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>AddItemServlet</servlet-name>
-    <url-pattern>/addItemServlet</url-pattern>
+    <url-pattern>/addItemServlet.do</url-pattern>
   </servlet-mapping>
+
+  <servlet>
+    <servlet-name>AuthServlet</servlet-name>
+    <servlet-class>servlets.AuthServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AuthServlet</servlet-name>
+    <url-pattern>/auth.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>LogoutServlet</servlet-name>
+    <servlet-class>servlets.LogOutServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LogoutServlet</servlet-name>
+    <url-pattern>/logout.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>RegServlet</servlet-name>
+    <servlet-class>servlets.RegServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RegServlet</servlet-name>
+    <url-pattern>/reg.do</url-pattern>
+  </servlet-mapping>
+
+  <filter>
+    <filter-name>AuthFilter</filter-name>
+    <filter-class>filter.AuthFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>AuthFilter</filter-name>
+    <url-pattern>*.do</url-pattern>
+  </filter-mapping>
+
 </web-app>

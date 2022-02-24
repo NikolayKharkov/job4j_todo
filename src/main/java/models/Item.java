@@ -14,22 +14,27 @@ public class Item {
     private String description;
     private LocalDate created;
     private boolean done;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Item() {
 
     }
 
-    public Item(String description) {
+    public Item(String description, User user) {
         this.description = description;
         this.created = LocalDate.now();
+        this.user = user;
         this.done = false;
     }
 
-    public Item(int id, String description, LocalDate created, boolean done) {
+    public Item(int id, String description, LocalDate created, boolean done, User user) {
         this.id = id;
         this.description = description;
         this.created = created;
         this.done = done;
+        this.user = user;
     }
 
     @Override
@@ -89,5 +94,13 @@ public class Item {
 
     public void setDone(boolean done) {
         this.done = done;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

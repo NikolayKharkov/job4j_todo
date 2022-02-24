@@ -20,8 +20,24 @@
     <title>ToDoList</title>
 </head>
 <body>
+<div class="container">
+    <div class="row">
+        <ul class="nav">
+            <c:if test="${user != null}">
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/logout.do"><c:out value="${user.name}"/> | Выйти</a>
+                </li>
+            </c:if>
+            <c:if test="${user == null}">
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp">Войти</a>
+                </li>
+            </c:if>
+        </ul>
+    </div>
+</div>
 <div class="card-body">
-    <form action="<%=request.getContextPath()%>/addItemServlet" method="get">
+    <form action="<%=request.getContextPath()%>/addItemServlet.do" method="get">
         <div class="form-group">
             <label>Дело</label>
             <input required type="text" class="form-control" name="description" placeholder="Укажите дело">
@@ -33,13 +49,13 @@
     <div class="row">
         <ul class="nav">
             <li class="nav-item">
-                <a class="nav-link" href="<c:url value='/getItems'/>">Все</a>
+                <a class="nav-link" href="<c:url value='/getItems.do'/>">Все</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<c:url value='/getAllPerformItems'/>">Выполненные</a>
+                <a class="nav-link" href="<c:url value='/getAllPerformItems.do'/>">Выполненные</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<c:url value='/getAllNotPerformItems'/>">Открытые</a>
+                <a class="nav-link" href="<c:url value='/getAllNotPerformItems.do'/>">Открытые</a>
             </li>
         </ul>
     </div>
@@ -57,6 +73,7 @@
                         <tr>
                             <th scope="col">Описание</th>
                             <th scope="col">Дата создания</th>
+                            <th scope="col">Автор</th>
                             <th scope="col">Выполнение</th>
                         </tr>
                         </thead>
@@ -65,10 +82,11 @@
                             <tr>
                                 <td><c:out value="${item.description}"/></td>
                                 <td><c:out value="${item.created}"/></td>
+                                <td><c:out value="${item.user.name}"/></td>
                                 <td>
                                     <c:if test="${item.done == false}">
                                         <a button type="submit" class="btn btn-warning"
-                                           href="<c:url value='/performItemServlet?id=${item.id}'/>">
+                                           href="<c:url value='/performItemServlet.do?id=${item.id}'/>">
                                             Выполнить</a>
                                     </c:if>
                                     <c:if test="${item.done == true}">

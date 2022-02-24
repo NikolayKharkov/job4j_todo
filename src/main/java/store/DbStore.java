@@ -1,6 +1,8 @@
 package store;
 
 import models.Item;
+import models.User;
+import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -8,7 +10,6 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
-import javax.persistence.Query;
 import java.util.List;
 import java.util.function.Function;
 
@@ -58,6 +59,20 @@ public class DbStore implements AutoCloseable {
         return this.tx(
                 session -> session.createQuery("from Item where done = false order by done desc, created").list()
         );
+    }
+
+    public User findUserByEmail(String email) {
+        return tx(session -> {
+            Query<User> query = session.createQuery("from User user where email = :email");
+            query.setParameter("email", email);
+            return query.uniqueResult();
+        });
+    }
+
+    public User saveUser(User user) {
+        int id = (int) tx(session -> session.save(user));
+        user.setId(id);
+        return user;
     }
 
     private <T> T tx(final Function<Session, T> command) {

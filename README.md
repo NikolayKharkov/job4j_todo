@@ -6,6 +6,7 @@
 Реализованные возможности:
 
 -Создание/выполнения дела
+Регистрация/Авторизация
 
 ![alt text](screenShots/allItems.jpg)
 ![alt text](screenShots/mainMenu.jpg)
